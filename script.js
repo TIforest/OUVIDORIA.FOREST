@@ -3,9 +3,9 @@
    Preencha com os valores da sua conta em emailjs.com
    (passo a passo no README.md)
 ========================================================= */
-const EMAILJS_PUBLIC_KEY = "COLE_AQUI_SUA_PUBLIC_KEY";
-const EMAILJS_SERVICE_ID = "COLE_AQUI_SEU_SERVICE_ID";
-const EMAILJS_TEMPLATE_ID = "COLE_AQUI_SEU_TEMPLATE_ID";
+const EMAILJS_PUBLIC_KEY = "S4HpxTtBbxx_V0TVB";
+const EMAILJS_SERVICE_ID = "service_6w1jzfm";
+const EMAILJS_TEMPLATE_ID = "template_tfckpnd";
 
 emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
