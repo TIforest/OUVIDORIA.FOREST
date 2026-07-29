@@ -24,7 +24,6 @@ const confirmacao = document.getElementById("confirmacao");
 const protocoloNumero = document.getElementById("protocolo-numero");
 const protocoloHidden = document.getElementById("protocolo");
 const dataEnvioHidden = document.getElementById("data_envio");
-const ipOrigemHidden = document.getElementById("ip_origem");
 const idNavegadorHidden = document.getElementById("id_navegador");
 const novaManifestacaoBtn = document.getElementById("nova-manifestacao");
 
@@ -41,17 +40,6 @@ function getOrCreateVisitorId() {
     localStorage.setItem(STORAGE_KEY, visitorId);
   }
   return visitorId;
-}
-
-/* ---------- IP público de origem ---------- */
-async function obterIpOrigem() {
-  try {
-    const res = await fetch("https://api.ipify.org?format=json");
-    const data = await res.json();
-    return data.ip;
-  } catch {
-    return "não identificado";
-  }
 }
 
 /* ---------- registra o envio na planilha (para detecção de padrões) ---------- */
@@ -111,8 +99,6 @@ form.addEventListener("submit", async (e) => {
   submitBtn.disabled = true;
   submitBtn.textContent = "Enviando...";
 
-  ipOrigemHidden.value = await obterIpOrigem();
-
   try {
     const [emailResult] = await Promise.allSettled([
       emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form),
@@ -122,7 +108,6 @@ form.addEventListener("submit", async (e) => {
         tipo: document.getElementById("tipo").value,
         identificacao: document.querySelector('input[name="identificacao"]:checked').value,
         setor: document.getElementById("setor").value,
-        ip_origem: ipOrigemHidden.value,
         id_navegador: idNavegadorHidden.value,
       }),
     ]);

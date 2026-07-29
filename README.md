@@ -44,15 +44,14 @@ Descrição:
 {{mensagem}}
 
 ---
-IP de origem: {{ip_origem}}
 ID anônimo do navegador: {{id_navegador}}
 ```
 
-> **Sobre IP e ID do navegador:** são registrados apenas para identificar
-> padrões de abuso do canal (ex: várias manifestações do mesmo dispositivo),
-> nunca para identificar quem enviou. Como o acesso é pela intranet, vários
-> colaboradores podem compartilhar o mesmo IP — o ID do navegador (salvo no
-> `localStorage`) é o sinal mais confiável de "mesma origem" nesse caso.
+> **Sobre o ID do navegador:** é registrado apenas para identificar padrões
+> de abuso do canal (ex: várias manifestações do mesmo dispositivo), nunca
+> para identificar quem enviou. É um código salvo no `localStorage` do
+> navegador — se a pessoa limpar o cache ou usar outro dispositivo, o código
+> muda.
 
 4. Copie o **Template ID** gerado (algo como `template_xxxxxxx`).
 
@@ -90,16 +89,16 @@ com o protocolo e o link de evidências.
 
 ## PASSO A PASSO — Planilha de controle (Google Sheets)
 
-Registra `protocolo`, `data/hora`, `tipo`, `identificação`, `setor`, `IP de origem`
-e `ID do navegador` de cada envio numa planilha — não registra o texto da
+Registra `protocolo`, `data/hora`, `tipo`, `identificação`, `setor` e
+`ID do navegador` de cada envio numa planilha — não registra o texto da
 reclamação (isso fica só no e-mail). Serve para o time da ouvidoria cruzar
-rapidamente se várias manifestações vieram do mesmo dispositivo/IP.
+rapidamente se várias manifestações vieram do mesmo dispositivo.
 
 ### 1. Criar a planilha
 1. Crie uma planilha nova em https://sheets.google.com
 2. Na primeira linha, adicione as colunas:
    ```
-   Data/Hora | Protocolo | Tipo | Identificação | Setor | IP de origem | ID do navegador
+   Data/Hora | Protocolo | Tipo | Identificação | Setor | ID do navegador
    ```
 
 ### 2. Criar o Apps Script
@@ -116,7 +115,6 @@ function doPost(e) {
     dados.tipo,
     dados.identificacao,
     dados.setor,
-    dados.ip_origem,
     dados.id_navegador,
   ]);
   return ContentService
