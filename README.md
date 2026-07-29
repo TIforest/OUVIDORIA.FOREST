@@ -42,7 +42,17 @@ Link de evidências: {{evidencias}}
 
 Descrição:
 {{mensagem}}
+
+---
+IP de origem: {{ip_origem}}
+ID anônimo do navegador: {{id_navegador}}
 ```
+
+> **Sobre IP e ID do navegador:** são registrados apenas para identificar
+> padrões de abuso do canal (ex: várias manifestações do mesmo dispositivo),
+> nunca para identificar quem enviou. Como o acesso é pela intranet, vários
+> colaboradores podem compartilhar o mesmo IP — o ID do navegador (salvo no
+> `localStorage`) é o sinal mais confiável de "mesma origem" nesse caso.
 
 4. Copie o **Template ID** gerado (algo como `template_xxxxxxx`).
 

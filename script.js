@@ -20,7 +20,35 @@ const confirmacao = document.getElementById("confirmacao");
 const protocoloNumero = document.getElementById("protocolo-numero");
 const protocoloHidden = document.getElementById("protocolo");
 const dataEnvioHidden = document.getElementById("data_envio");
+const ipOrigemHidden = document.getElementById("ip_origem");
+const idNavegadorHidden = document.getElementById("id_navegador");
 const novaManifestacaoBtn = document.getElementById("nova-manifestacao");
+
+/* ---------- identificador anônimo do navegador ---------- */
+/* Mesmo dispositivo/navegador mantém o mesmo código entre envios,
+   permitindo notar padrões de abuso sem identificar a pessoa. */
+function getOrCreateVisitorId() {
+  const STORAGE_KEY = "fp_ouvidoria_visitor_id";
+  let visitorId = localStorage.getItem(STORAGE_KEY);
+  if (!visitorId) {
+    visitorId = crypto.randomUUID
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    localStorage.setItem(STORAGE_KEY, visitorId);
+  }
+  return visitorId;
+}
+
+/* ---------- IP público de origem ---------- */
+async function obterIpOrigem() {
+  try {
+    const res = await fetch("https://api.ipify.org?format=json");
+    const data = await res.json();
+    return data.ip;
+  } catch {
+    return "não identificado";
+  }
+}
 
 /* ---------- alterna campos de identificação ---------- */
 identificacaoRadios.forEach((radio) => {
@@ -60,9 +88,12 @@ form.addEventListener("submit", async (e) => {
   const protocolo = gerarProtocolo();
   protocoloHidden.value = protocolo;
   dataEnvioHidden.value = new Date().toLocaleString("pt-BR");
+  idNavegadorHidden.value = getOrCreateVisitorId();
 
   submitBtn.disabled = true;
   submitBtn.textContent = "Enviando...";
+
+  ipOrigemHidden.value = await obterIpOrigem();
 
   try {
     await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
