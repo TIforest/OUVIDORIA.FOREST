@@ -7,6 +7,10 @@ const EMAILJS_PUBLIC_KEY = "S4HpxTtBbxx_V0TVB";
 const EMAILJS_SERVICE_ID = "service_6w1jzfm";
 const EMAILJS_TEMPLATE_ID = "template_tfckpnd";
 
+/* URL do Google Apps Script (Web App) que registra cada envio na planilha.
+   Passo a passo de como criar em README.md */
+const SHEETS_WEBHOOK_URL = "COLE_AQUI_A_URL_DO_APPS_SCRIPT";
+
 emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
 const form = document.getElementById("ouvidoria-form");
@@ -47,6 +51,20 @@ async function obterIpOrigem() {
     return data.ip;
   } catch {
     return "não identificado";
+  }
+}
+
+/* ---------- registra o envio na planilha (para detecção de padrões) ---------- */
+async function registrarNaPlanilha(dados) {
+  if (!SHEETS_WEBHOOK_URL || SHEETS_WEBHOOK_URL.includes("COLE_AQUI")) return;
+  try {
+    await fetch(SHEETS_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(dados),
+    });
+  } catch (err) {
+    console.error("Erro ao registrar na planilha:", err);
   }
 }
 
@@ -96,7 +114,22 @@ form.addEventListener("submit", async (e) => {
   ipOrigemHidden.value = await obterIpOrigem();
 
   try {
-    await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
+    const [emailResult] = await Promise.allSettled([
+      emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form),
+      registrarNaPlanilha({
+        protocolo,
+        data_envio: dataEnvioHidden.value,
+        tipo: document.getElementById("tipo").value,
+        identificacao: document.querySelector('input[name="identificacao"]:checked').value,
+        setor: document.getElementById("setor").value,
+        ip_origem: ipOrigemHidden.value,
+        id_navegador: idNavegadorHidden.value,
+      }),
+    ]);
+
+    if (emailResult.status === "rejected") {
+      throw emailResult.reason;
+    }
 
     form.hidden = true;
     protocoloNumero.textContent = protocolo;

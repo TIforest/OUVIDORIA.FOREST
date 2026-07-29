@@ -88,6 +88,71 @@ com o protocolo e o link de evidências.
 
 ---
 
+## PASSO A PASSO — Planilha de controle (Google Sheets)
+
+Registra `protocolo`, `data/hora`, `tipo`, `identificação`, `setor`, `IP de origem`
+e `ID do navegador` de cada envio numa planilha — não registra o texto da
+reclamação (isso fica só no e-mail). Serve para o time da ouvidoria cruzar
+rapidamente se várias manifestações vieram do mesmo dispositivo/IP.
+
+### 1. Criar a planilha
+1. Crie uma planilha nova em https://sheets.google.com
+2. Na primeira linha, adicione as colunas:
+   ```
+   Data/Hora | Protocolo | Tipo | Identificação | Setor | IP de origem | ID do navegador
+   ```
+
+### 2. Criar o Apps Script
+1. Na planilha, vá em **Extensões → Apps Script**.
+2. Apague o conteúdo padrão e cole:
+
+```js
+function doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const dados = JSON.parse(e.postData.contents);
+  sheet.appendRow([
+    new Date(),
+    dados.protocolo,
+    dados.tipo,
+    dados.identificacao,
+    dados.setor,
+    dados.ip_origem,
+    dados.id_navegador,
+  ]);
+  return ContentService
+    .createTextOutput(JSON.stringify({ status: "ok" }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+```
+
+3. Clique em **Salvar** (ícone de disquete).
+
+### 3. Publicar como Web App
+1. Clique em **Implantar → Nova implantação**.
+2. Em "Selecionar tipo", escolha **App da Web**.
+3. Configure:
+   - **Executar como:** Eu (sua conta)
+   - **Quem pode acessar:** Qualquer pessoa
+4. Clique em **Implantar** e autorize as permissões pedidas.
+5. Copie a **URL do app da Web** gerada.
+
+> A URL fica "escondida" (é uma sequência longa e aleatória), mas tecnicamente
+> qualquer pessoa que a descobrisse poderia mandar dados pra planilha. Não é
+> um risco alto pra esse uso, mas evite divulgar essa URL publicamente.
+
+### 4. Colar a URL no código
+Abra `script.js` e substitua:
+
+```js
+const SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/SEU_ID_AQUI/exec";
+```
+
+### 5. Testar
+Envie uma manifestação de teste pelo site e confira se uma nova linha
+apareceu na planilha.
+
+---
+
 ## PASSO A PASSO — Publicar no GitHub Pages
 
 1. Crie um repositório novo no GitHub (pode ser público, o formulário não tem
