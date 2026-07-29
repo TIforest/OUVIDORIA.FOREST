@@ -38,6 +38,7 @@ Identificação: {{identificacao}}
 Nome: {{nome}}
 Contato: {{email}}
 Setor relacionado: {{setor}}
+Link de evidências: {{evidencias}}
 
 Descrição:
 {{mensagem}}
@@ -45,13 +46,10 @@ Descrição:
 
 4. Copie o **Template ID** gerado (algo como `template_xxxxxxx`).
 
-### 4. Habilitar anexos no template
-1. Ainda na edição do template, procure a opção **Attachments** (no editor do EmailJS).
-2. Adicione um campo de anexo apontando para o `name="anexos"` do formulário.
-3. **Importante:** o plano gratuito do EmailJS tem limite de tamanho de anexo
-   bem baixo. Se os anexos não chegarem, verifique o limite do seu plano em
-   **Account → Plan** e ajuste as constantes `MAX_FILE_SIZE_MB` e
-   `MAX_TOTAL_SIZE_MB` no topo do `script.js` para ficar dentro do permitido.
+> **Nota sobre anexos:** o plano gratuito do EmailJS não permite anexar
+> arquivos direto no formulário (recurso pago). Por isso o site usa um campo
+> de **link** (`{{evidencias}}`) em vez de upload — a pessoa sobe o arquivo
+> em um serviço como Google Drive ou WeTransfer e cola o link no formulário.
 
 ### 5. Pegar a Public Key
 1. Vá em **Account → General**.
@@ -76,7 +74,7 @@ pode ser usada:
 ### 8. Testar
 Abra o `index.html` localmente (duplo clique ou `Live Server` no VS Code),
 preencha o formulário e envie um teste para confirmar que o e-mail chega
-com o protocolo e os anexos.
+com o protocolo e o link de evidências.
 
 ---
 

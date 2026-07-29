@@ -7,11 +7,6 @@ const EMAILJS_PUBLIC_KEY = "COLE_AQUI_SUA_PUBLIC_KEY";
 const EMAILJS_SERVICE_ID = "COLE_AQUI_SEU_SERVICE_ID";
 const EMAILJS_TEMPLATE_ID = "COLE_AQUI_SEU_TEMPLATE_ID";
 
-/* Limites de anexo (ajuste conforme o plano do EmailJS) */
-const MAX_FILES = 3;
-const MAX_FILE_SIZE_MB = 5;
-const MAX_TOTAL_SIZE_MB = 15;
-
 emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
 const form = document.getElementById("ouvidoria-form");
@@ -19,9 +14,6 @@ const identificacaoRadios = document.querySelectorAll('input[name="identificacao
 const dadosIdentificacao = document.getElementById("dados-identificacao");
 const nomeInput = document.getElementById("nome");
 const emailInput = document.getElementById("email");
-const fileInput = document.getElementById("anexos");
-const fileList = document.getElementById("file-list");
-const fileError = document.getElementById("file-error");
 const submitBtn = document.getElementById("submit-btn");
 const formStatus = document.getElementById("form-status");
 const confirmacao = document.getElementById("confirmacao");
@@ -41,44 +33,6 @@ identificacaoRadios.forEach((radio) => {
     } else {
       dadosIdentificacao.style.display = "block";
     }
-  });
-});
-
-/* ---------- validação de anexos ---------- */
-fileInput.addEventListener("change", () => {
-  const files = Array.from(fileInput.files);
-  fileList.innerHTML = "";
-  fileError.hidden = true;
-
-  if (files.length > MAX_FILES) {
-    fileError.textContent = `Você pode anexar no máximo ${MAX_FILES} arquivos.`;
-    fileError.hidden = false;
-    fileInput.value = "";
-    return;
-  }
-
-  let totalSize = 0;
-  for (const file of files) {
-    totalSize += file.size;
-    if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-      fileError.textContent = `O arquivo "${file.name}" excede o limite de ${MAX_FILE_SIZE_MB} MB.`;
-      fileError.hidden = false;
-      fileInput.value = "";
-      return;
-    }
-  }
-
-  if (totalSize > MAX_TOTAL_SIZE_MB * 1024 * 1024) {
-    fileError.textContent = `O total dos arquivos excede o limite de ${MAX_TOTAL_SIZE_MB} MB.`;
-    fileError.hidden = false;
-    fileInput.value = "";
-    return;
-  }
-
-  files.forEach((file) => {
-    const li = document.createElement("li");
-    li.textContent = `${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
-    fileList.appendChild(li);
   });
 });
 
@@ -131,7 +85,6 @@ form.addEventListener("submit", async (e) => {
 /* ---------- nova manifestação ---------- */
 novaManifestacaoBtn.addEventListener("click", () => {
   form.reset();
-  fileList.innerHTML = "";
   dadosIdentificacao.style.display = "block";
   confirmacao.hidden = true;
   form.hidden = false;

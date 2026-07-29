@@ -99,17 +99,18 @@
     </div>
 
     <div class="field">
-      <label for="anexos">Anexar evidências (foto, vídeo, áudio ou documento)</label>
+      <label for="evidencias">Link de evidências (foto, vídeo, áudio ou documento)</label>
       <input
-        type="file"
-        id="anexos"
-        name="anexos"
-        multiple
-        accept="image/*,video/*,audio/*,.pdf,.doc,.docx"
+        type="url"
+        id="evidencias"
+        name="evidencias"
+        placeholder="Cole aqui o link do Google Drive, WeTransfer, etc."
       />
-      <p class="hint">Até 3 arquivos. Máximo de 5 MB por arquivo (15 MB no total).</p>
-      <ul id="file-list" class="file-list"></ul>
-      <p id="file-error" class="file-error" hidden></p>
+      <p class="hint">
+        Se tiver arquivos como foto, vídeo ou áudio, suba-os em um serviço como
+        Google Drive ou WeTransfer e cole o link de compartilhamento aqui. Não
+        esqueça de deixar o link com acesso liberado para visualização.
+      </p>
     </div>
 
     <div class="field checkbox-field">

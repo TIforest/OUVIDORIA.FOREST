@@ -115,6 +115,7 @@ body {
 }
 
 input[type="text"],
+input[type="url"],
 select,
 textarea {
   width: 100%;
@@ -128,6 +129,7 @@ textarea {
 }
 
 input[type="text"]:focus,
+input[type="url"]:focus,
 select:focus,
 textarea:focus {
   outline: none;
@@ -204,32 +206,6 @@ textarea:focus {
   background: transparent;
   min-height: 150px;
   resize: vertical;
-}
-
-/* file input */
-input[type="file"] {
-  width: 100%;
-  font-size: 13.5px;
-  padding: 8px 0;
-}
-
-.file-list {
-  list-style: none;
-  padding: 0;
-  margin: 10px 0 0;
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-.file-list li {
-  padding: 4px 0;
-  border-bottom: 1px dashed var(--border);
-}
-
-.file-error {
-  color: var(--danger);
-  font-size: 13px;
-  margin: 8px 0 0;
 }
 
 /* button */
