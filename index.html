@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Canal de Ouvidoria — Forest Paper</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark">FP</span>
+      <div class="brand-text">
+        <strong>Forest Paper</strong>
+        <span>Canal de Ética e Ouvidoria</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+
+  <section class="intro">
+    <h1>Registrar manifestação</h1>
+    <p>
+      Este canal existe para que você possa relatar reclamações, sugestões, elogios
+      ou denúncias com segurança. Todas as manifestações são tratadas com
+      confidencialidade, em conformidade com a Lei Geral de Proteção de Dados
+      (LGPD — Lei nº 13.709/2018).
+    </p>
+  </section>
+
+  <!-- ===================== FORMULÁRIO ===================== -->
+  <form id="ouvidoria-form" class="card" novalidate>
+
+    <div class="field">
+      <label for="tipo">Tipo de manifestação <span class="req">*</span></label>
+      <select id="tipo" name="tipo" required>
+        <option value="" disabled selected>Selecione uma opção</option>
+        <option value="Reclamação">Reclamação</option>
+        <option value="Sugestão">Sugestão</option>
+        <option value="Denúncia / Ouvidoria">Denúncia / Ouvidoria</option>
+        <option value="Elogio">Elogio</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Como deseja se identificar? <span class="req">*</span></label>
+      <div class="radio-group">
+        <label class="radio-option">
+          <input type="radio" name="identificacao" value="Identificado" checked />
+          Identificado
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="identificacao" value="Anônimo" />
+          Anônimo
+        </label>
+      </div>
+      <p class="hint">Manifestações anônimas também são recebidas e apuradas normalmente.</p>
+    </div>
+
+    <div id="dados-identificacao" class="id-fields">
+      <div class="field">
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" name="nome" placeholder="Seu nome" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="email">E-mail ou matrícula para contato</label>
+        <input type="text" id="email" name="email" placeholder="seuemail@forestpaper.com ou matrícula" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="setor">Setor / área relacionada</label>
+      <input type="text" id="setor" name="setor" placeholder="Ex: Produção, Logística, RH... (opcional)" />
+    </div>
+
+    <div class="field">
+      <label for="mensagem">Descreva sua manifestação <span class="req">*</span></label>
+      <div class="textarea-wrap">
+        <div class="watermark" aria-hidden="true">
+          CONFIDENCIAL — PROTEGIDO PELA LGPD
+        </div>
+        <textarea
+          id="mensagem"
+          name="mensagem"
+          required
+          minlength="10"
+          placeholder="Descreva com o máximo de detalhes possível: o que aconteceu, quando, onde e quem esteve envolvido..."
+        ></textarea>
+      </div>
+      <p class="hint">
+        🔒 Suas informações são tratadas de forma sigilosa. O acesso a este relato é restrito
+        às pessoas responsáveis pela apuração, conforme a LGPD.
+      </p>
+    </div>
+
+    <div class="field">
+      <label for="anexos">Anexar evidências (foto, vídeo, áudio ou documento)</label>
+      <input
+        type="file"
+        id="anexos"
+        name="anexos"
+        multiple
+        accept="image/*,video/*,audio/*,.pdf,.doc,.docx"
+      />
+      <p class="hint">Até 3 arquivos. Máximo de 5 MB por arquivo (15 MB no total).</p>
+      <ul id="file-list" class="file-list"></ul>
+      <p id="file-error" class="file-error" hidden></p>
+    </div>
+
+    <div class="field checkbox-field">
+      <label class="checkbox-option">
+        <input type="checkbox" id="lgpd" name="lgpd" required />
+        Estou ciente de que meus dados serão tratados de forma confidencial,
+        em conformidade com a LGPD, exclusivamente para fins de apuração desta manifestação.
+        <span class="req">*</span>
+      </label>
+    </div>
+
+    <input type="hidden" id="protocolo" name="protocolo" value="" />
+    <input type="hidden" id="data_envio" name="data_envio" value="" />
+
+    <button type="submit" id="submit-btn" class="submit-btn">
+      Enviar manifestação
+    </button>
+
+    <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+  </form>
+
+  <!-- ===================== TELA DE CONFIRMAÇÃO ===================== -->
+  <section id="confirmacao" class="card confirmacao" hidden>
+    <div class="check-icon">✓</div>
+    <h2>Manifestação enviada com sucesso</h2>
+    <p>Obrigado por contribuir com a melhoria contínua da Forest Paper.</p>
+    <div class="protocolo-box">
+      <span>Seu número de protocolo</span>
+      <strong id="protocolo-numero"></strong>
+    </div>
+    <p class="hint">Guarde este número. Ele pode ser usado para referenciar sua manifestação em contatos futuros com a Ouvidoria.</p>
+    <button type="button" id="nova-manifestacao" class="submit-btn secondary">
+      Registrar nova manifestação
+    </button>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <p>Forest Paper © 2026 — Canal de Ouvidoria interno. Uso restrito aos colaboradores.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
