@@ -208,6 +208,44 @@ textarea:focus {
   resize: vertical;
 }
 
+/* aviso inicial (modal) */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 83, 45, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+
+.modal-overlay[hidden] {
+  display: none;
+}
+
+.modal-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+}
+
+.modal-card h2 {
+  margin: 0 0 12px;
+  color: var(--forest-dark);
+  font-size: 19px;
+}
+
+.modal-card p {
+  color: var(--text-muted);
+  font-size: 14.5px;
+  margin: 0 0 22px;
+}
+
 /* button */
 .submit-btn {
   width: 100%;
@@ -316,5 +354,8 @@ textarea:focus {
   .radio-group {
     flex-direction: column;
     gap: 10px;
+  }
+  .modal-card {
+    padding: 20px;
   }
 }

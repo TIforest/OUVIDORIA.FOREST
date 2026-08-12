@@ -29,6 +29,15 @@ const protocoloHidden = document.getElementById("protocolo");
 const dataEnvioHidden = document.getElementById("data_envio");
 const idNavegadorHidden = document.getElementById("id_navegador");
 const novaManifestacaoBtn = document.getElementById("nova-manifestacao");
+const avisoModal = document.getElementById("aviso-modal");
+const avisoFecharBtn = document.getElementById("aviso-fechar");
+
+/* ---------- aviso inicial ---------- */
+document.body.style.overflow = "hidden";
+avisoFecharBtn.addEventListener("click", () => {
+  avisoModal.hidden = true;
+  document.body.style.overflow = "";
+});
 
 /* ---------- identificador anônimo do navegador ---------- */
 /* Mesmo dispositivo/navegador mantém o mesmo código entre envios,
