@@ -37,6 +37,7 @@ Tipo de manifestação: {{tipo}}
 Identificação: {{identificacao}}
 Nome: {{nome}}
 Contato: {{email}}
+Contato para retorno (anônimo): {{contato_retorno}}
 Setor relacionado: {{setor}}
 Link de evidências: {{evidencias}}
 
@@ -46,6 +47,17 @@ Descrição:
 ---
 ID anônimo do navegador: {{id_navegador}}
 ```
+
+> **Campo `contato_retorno`:** só aparece quando a pessoa escolhe "Anônimo".
+> É um meio de contato opcional (e-mail, telefone etc.) para que a equipe
+> possa dar retorno sobre a apuração sem exigir identificação. Se a pessoa
+> marcar "prefiro não deixar contato", esse campo chega vazio no e-mail —
+> isso é esperado.
+>
+> **Se você já tem um template criado no EmailJS**, abra
+> **Email Templates → seu template → Content** e adicione a linha
+> `Contato para retorno (anônimo): {{contato_retorno}}` no corpo, senão o
+> campo é ignorado e a equipe não vê o contato deixado pela pessoa.
 
 > **Sobre o ID do navegador:** é registrado apenas para identificar padrões
 > de abuso do canal (ex: várias manifestações do mesmo dispositivo), nunca

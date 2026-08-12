@@ -18,6 +18,9 @@ const identificacaoRadios = document.querySelectorAll('input[name="identificacao
 const dadosIdentificacao = document.getElementById("dados-identificacao");
 const nomeInput = document.getElementById("nome");
 const emailInput = document.getElementById("email");
+const contatoRetornoBlock = document.getElementById("contato-retorno-anonimo");
+const contatoRetornoInput = document.getElementById("contato_retorno");
+const semContatoCheckbox = document.getElementById("sem_contato");
 const submitBtn = document.getElementById("submit-btn");
 const formStatus = document.getElementById("form-status");
 const confirmacao = document.getElementById("confirmacao");
@@ -64,10 +67,33 @@ identificacaoRadios.forEach((radio) => {
       dadosIdentificacao.style.display = "none";
       nomeInput.value = "";
       emailInput.value = "";
+      contatoRetornoBlock.hidden = false;
     } else {
       dadosIdentificacao.style.display = "block";
+      contatoRetornoBlock.hidden = true;
+      contatoRetornoInput.value = "";
+      contatoRetornoInput.disabled = false;
+      semContatoCheckbox.checked = false;
     }
   });
+});
+
+/* ---------- contato de retorno (só aparece no fluxo anônimo) ---------- */
+/* as duas opções são mutuamente exclusivas: ou a pessoa deixa um contato,
+   ou marca que não quer deixar — nunca os dois ao mesmo tempo. */
+semContatoCheckbox.addEventListener("change", () => {
+  if (semContatoCheckbox.checked) {
+    contatoRetornoInput.value = "";
+    contatoRetornoInput.disabled = true;
+  } else {
+    contatoRetornoInput.disabled = false;
+  }
+});
+
+contatoRetornoInput.addEventListener("input", () => {
+  if (contatoRetornoInput.value.trim() !== "") {
+    semContatoCheckbox.checked = false;
+  }
 });
 
 /* ---------- gera número de protocolo ---------- */
@@ -88,6 +114,20 @@ form.addEventListener("submit", async (e) => {
 
   if (!form.checkValidity()) {
     form.reportValidity();
+    return;
+  }
+
+  const anonimoSelecionado =
+    document.querySelector('input[name="identificacao"]:checked').value === "Anônimo";
+  if (
+    anonimoSelecionado &&
+    contatoRetornoInput.value.trim() === "" &&
+    !semContatoCheckbox.checked
+  ) {
+    formStatus.textContent =
+      "Deixe um contato para retorno ou marque que não deseja deixar contato.";
+    formStatus.classList.add("error");
+    contatoRetornoInput.focus();
     return;
   }
 
@@ -135,6 +175,8 @@ form.addEventListener("submit", async (e) => {
 novaManifestacaoBtn.addEventListener("click", () => {
   form.reset();
   dadosIdentificacao.style.display = "block";
+  contatoRetornoBlock.hidden = true;
+  contatoRetornoInput.disabled = false;
   confirmacao.hidden = true;
   form.hidden = false;
   window.scrollTo({ top: 0, behavior: "smooth" });
