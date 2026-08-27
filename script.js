@@ -13,7 +13,7 @@ const SHEETS_WEBHOOK_URL = "COLE_AQUI_A_URL_DO_APPS_SCRIPT";
 
 /* URL do painel interno (Cloudflare Worker) usado pelo jurídico para
    acompanhar e dar andamento nas manifestações. */
-const PAINEL_INGEST_URL = "https://ouvidoria-painel.brunocalves99.workers.dev/api/ingest";
+const PAINEL_INGEST_URL = "https://ouvidoria-painel.chamados-push.workers.dev/api/ingest";
 
 emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
