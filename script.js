@@ -11,6 +11,10 @@ const EMAILJS_TEMPLATE_ID = "template_tfckpnd";
    Passo a passo de como criar em README.md */
 const SHEETS_WEBHOOK_URL = "COLE_AQUI_A_URL_DO_APPS_SCRIPT";
 
+/* URL do painel interno (Cloudflare Worker) usado pelo jurídico para
+   acompanhar e dar andamento nas manifestações. */
+const PAINEL_INGEST_URL = "https://ouvidoria-painel.brunocalves99.workers.dev/api/ingest";
+
 emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
 const form = document.getElementById("ouvidoria-form");
@@ -65,6 +69,19 @@ async function registrarNaPlanilha(dados) {
     });
   } catch (err) {
     console.error("Erro ao registrar na planilha:", err);
+  }
+}
+
+/* ---------- registra a manifestação completa no painel do jurídico ---------- */
+async function registrarNoPainel(dados) {
+  try {
+    await fetch(PAINEL_INGEST_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados),
+    });
+  } catch (err) {
+    console.error("Erro ao registrar no painel:", err);
   }
 }
 
@@ -157,6 +174,19 @@ form.addEventListener("submit", async (e) => {
         tipo: document.getElementById("tipo").value,
         identificacao: document.querySelector('input[name="identificacao"]:checked').value,
         setor: document.getElementById("setor").value,
+        id_navegador: idNavegadorHidden.value,
+      }),
+      registrarNoPainel({
+        protocolo,
+        data_envio: dataEnvioHidden.value,
+        tipo: document.getElementById("tipo").value,
+        identificacao: document.querySelector('input[name="identificacao"]:checked').value,
+        nome: nomeInput.value,
+        email: emailInput.value,
+        setor: document.getElementById("setor").value,
+        mensagem: document.getElementById("mensagem").value,
+        evidencias: document.getElementById("evidencias").value,
+        contato_retorno: contatoRetornoInput.value,
         id_navegador: idNavegadorHidden.value,
       }),
     ]);
