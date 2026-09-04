@@ -11,11 +11,6 @@ const EMAILJS_TEMPLATE_ID = "template_tfckpnd";
    Passo a passo de como criar em README.md */
 const SHEETS_WEBHOOK_URL = "COLE_AQUI_A_URL_DO_APPS_SCRIPT";
 
-/* URL do painel interno (Cloudflare Worker) usado para acompanhamento
-   operacional. Recebe apenas o numero do protocolo -- nenhum outro dado
-   da manifestacao trafega para ele. */
-const PAINEL_INGEST_URL = "https://ouvidoria-painel.chamados-push.workers.dev/api/ingest";
-
 emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
 const form = document.getElementById("ouvidoria-form");
@@ -70,19 +65,6 @@ async function registrarNaPlanilha(dados) {
     });
   } catch (err) {
     console.error("Erro ao registrar na planilha:", err);
-  }
-}
-
-/* ---------- registra o protocolo no painel de acompanhamento ---------- */
-async function registrarNoPainel(dados) {
-  try {
-    await fetch(PAINEL_INGEST_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dados),
-    });
-  } catch (err) {
-    console.error("Erro ao registrar no painel:", err);
   }
 }
 
@@ -177,7 +159,6 @@ form.addEventListener("submit", async (e) => {
         setor: document.getElementById("setor").value,
         id_navegador: idNavegadorHidden.value,
       }),
-      registrarNoPainel({ protocolo }),
     ]);
 
     if (emailResult.status === "rejected") {
